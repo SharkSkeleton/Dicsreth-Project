@@ -1,0 +1,50 @@
+int BFSprint(BFSqueue *top, BFSqueue *last)
+{
+	static int num = 0;
+	if (top == 0)
+		cout << left << setw(9) << "-" << left << setw(13) << "-";
+	else if (last->num != num)
+	{
+		cout << left << setw(9) << last->num << left << setw(13) << last->BFSnum;
+		num = last->num;
+	}
+	else
+		cout << left << setw(9) << "-" << left << setw(13) << "-";
+
+	if (top == NULL)
+	{
+		cout << "Queue is empty" << endl;
+		cout << "------------------------------------" << endl;
+		return 0;
+	}
+	BFSqueue *BFSprint = top;
+	while (BFSprint)
+	{
+		cout << BFSprint->num << " ";
+		BFSprint = BFSprint->next;
+	}
+	cout << endl;
+}
+
+void DFSprint(DFSstack *top, char check)
+{
+	if (check == 'w')
+		cout << left << setw(9) << top->num << left << setw(13) << top->DFSnum;
+	else
+		cout << left << setw(9) << "-" << left << setw(13) << "-";
+
+	if (top == NULL)
+	{
+		cout << "Stack is empty" << endl;
+		cout << "------------------------------------" << endl;
+		return;
+	}
+	DFSstack *print = top;
+	while (print)
+	{
+		cout << print->num << " ";
+		if (print->next == 0) break;
+		print = print->next;
+	}
+	cout << endl;
+}
