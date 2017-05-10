@@ -1,0 +1,80 @@
+void Tree::DelNode(Node* x)
+{
+	if (x->left == 0)					
+		Transplant(x, x->right);
+	else if (x->right == 0)				
+		Transplant(x, x->left);
+	else
+	{
+		Node *y = min(x->right);	
+		if (y->parent != x)
+		{
+			Transplant(y, y->right);
+			y->right = x->right;
+			y->right->parent = y;
+		}
+		Transplant(x, y);		
+		y->left = x->left;
+		y->left->parent = y;
+	}
+	delete x;
+}
+
+void Tree::Transplant(Node* x, Node* y)	 
+{
+	if (x->parent == 0)                
+		root = y;
+	else if (x == x->parent->left)     
+		x->parent->left = y;
+	else
+		x->parent->right = y;		   
+	if (y != 0)				          
+		y->parent = x->parent;
+}
+
+Node* Tree::min(Node* x)
+{
+	if (x->left == 0)
+		return x;
+	else
+		return min(x->left);
+}
+
+void Tree::DelEven(Node *x)
+{
+	if (x != 0)
+	{
+		DelEven(x->right);
+		DelEven(x->left);
+		if ((x->key % 2 == 0) && (x->key != 0))
+			DelNode(x);
+	}
+}
+
+void Tree::AddNode(Node* to_insert)
+{
+	Node *x = root;
+	Node *y = 0;
+	int where = 0;
+	while (x != 0)
+	{
+		y = x;
+
+		where = rand() % 2;
+		if (where == 0)
+			x = x->left;
+		else
+			x = x->right;
+	}
+
+	to_insert->parent = y;
+
+	if (y == 0)
+		root = to_insert;
+	else if (where == 0)
+		y->left = to_insert;
+	else
+		y->right = to_insert;
+
+	nodes++;
+}
