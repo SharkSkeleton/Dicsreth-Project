@@ -1,0 +1,41 @@
+void InitListManually(List &list)
+{
+	cout << "Enter numbers" << endl;
+	char values_array[500];
+	fflush(stdin);
+	cin.getline(values_array, 500);
+
+	set<int> values;
+	if (strlen(values_array) != 0)
+	{
+		char *pEnd = 0;
+		values.insert(strtol(values_array, &pEnd, 10));
+		while (*pEnd != '\0')
+			values.insert(strtol(pEnd, &pEnd, 10));
+	}
+
+	for (set<int>::iterator i = values.begin(); i != values.end(); i++)
+		PushBack(list, *i);
+}
+
+void MakeUnion(List &first, List &second, List &setUnion)
+{
+	for (Node *x = first.head; x != 0; x = x->next) 
+		PushBack(setUnion, x->value);
+
+	for (Node *x = second.head; x != 0; x = x->next) 
+		if (!Find(setUnion, x->value)) 
+			PushBack(setUnion, x->value); 
+}
+
+void MakeDifference(List &first, List &second, List &Difference)
+{
+	for (Node *x = first.head; x != 0; x = x->next) 
+		PushBack(Difference, x->value);
+
+	for (Node *x = second.head; x != 0; x = x->next) 
+	{
+		Node *found = Find(Difference, x->value); 
+		if (found) Erase(Difference, found); 
+	}
+}
